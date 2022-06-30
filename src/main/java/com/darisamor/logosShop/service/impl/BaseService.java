@@ -1,7 +1,5 @@
 package com.darisamor.logosShop.service.impl;
 
-import com.darisamor.logosShop.dto.TestDTO;
-
 import java.util.List;
 
 public interface BaseService<T> {

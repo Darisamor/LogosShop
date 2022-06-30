@@ -2,16 +2,17 @@ package com.darisamor.logosShop.controller;
 
 import com.darisamor.logosShop.dto.TestDTO;
 import com.darisamor.logosShop.service.TestService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/test")
 public class TestController {
@@ -33,5 +34,21 @@ public class TestController {
     @GetMapping("/byName")
     public ResponseEntity<TestDTO> getAll(@RequestParam(name = "name") String name){
         return ResponseEntity.ok(service.findByName(name));
+    }
+
+    @PostMapping
+//    @ApiOperation(
+//            value = "some test post endpoint",
+//            notes = "try new api operations options",
+//            response = String.class
+//    )
+    public ResponseEntity<String> testPost(
+//            @ApiParam(
+//                    value = "body = testdto",
+//                    required = true
+//            )
+            @RequestBody TestDTO dto){
+        log.error("Test error");
+        return ResponseEntity.ok(dto.toString());
     }
 }
