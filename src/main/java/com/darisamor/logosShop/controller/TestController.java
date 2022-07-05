@@ -1,9 +1,7 @@
 package com.darisamor.logosShop.controller;
 
-import com.darisamor.logosShop.dto.TestDTO;
+import com.darisamor.logosShop.domain.TestDTO;
 import com.darisamor.logosShop.service.TestService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

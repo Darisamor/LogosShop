@@ -1,4 +1,4 @@
-package com.darisamor.logosShop.service.impl;
+package com.darisamor.logosShop.service;
 
 import java.util.List;
 

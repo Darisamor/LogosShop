@@ -1,6 +1,6 @@
 package com.darisamor.logosShop;
 
-import com.darisamor.logosShop.dto.TestDTO;
+import com.darisamor.logosShop.domain.TestDTO;
 import com.darisamor.logosShop.entity.TestEntity;
 import com.darisamor.logosShop.service.TestService;
 import com.darisamor.logosShop.util.ModelMapperUtil;
