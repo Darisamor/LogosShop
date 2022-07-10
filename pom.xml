@@ -15,6 +15,9 @@
 	<description>Online shop for Logos</description>
 	<properties>
 		<java.version>11</java.version>
+		<modelmapper-version>3.1.0</modelmapper-version>
+		<springfox-boot-starter-version>3.0.0</springfox-boot-starter-version>
+		<spring-boot-starter-security-version>2.7.1</spring-boot-starter-security-version>
 	</properties>
 
 	<dependencies>
@@ -58,12 +61,17 @@
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>3.1.0</version>
+			<version>${modelmapper-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
+			<version>${springfox-boot-starter-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring-boot-starter-security-version}</version>
 		</dependency>
 	</dependencies>
 

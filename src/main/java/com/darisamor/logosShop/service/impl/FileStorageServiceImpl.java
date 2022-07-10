@@ -1,15 +1,18 @@
 package com.darisamor.logosShop.service.impl;
 
+import com.darisamor.logosShop.exception.NotFoundException;
 import com.darisamor.logosShop.service.FileStorageService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,23 +22,18 @@ import java.util.UUID;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    @Value("${custom.path.file-directory}")
-    private String customPathFileDirectory;
-
-    private final String HOME_PATH = System.getProperty("user.dir");
-    private final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private String uploadsDir;
-
     private final Path fileStorageLocation;
 
-    public FileStorageServiceImpl(){
-        uploadsDir = HOME_PATH + FILE_SEPARATOR + "upload";
+    public FileStorageServiceImpl( @Value("${custom.path.file-directory}") String customPathFileDirectory){
+        String uploadsDir = System.getProperty("user.dir") +
+                System.getProperty("file.separator") +
+                customPathFileDirectory;
         this.fileStorageLocation = Paths.get(uploadsDir).toAbsolutePath().normalize();
 
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (IOException e){
-            log.error("Directory creation failed (" + uploadsDir + ")", e);
+            log.error("Directory creation failed ({})", uploadsDir, e);
         }
     }
 
@@ -60,6 +58,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             Files.copy(file.getInputStream(), targetLocation);
         } catch (IOException e){
             log.error("File copying error", e);
+            filename = null;
         }
         return filename;
     }
@@ -67,14 +66,22 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public Resource loadFileByFileName(String fileName) {
 //        Path filePath = this.fileStorageLocation.resolve(uploadsDir + FILE_SEPARATOR + fileName);
-        Path filePath = this.fileStorageLocation.resolve( fileName);
-        try{
-            Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists()) return resource;
-            else throw new Exception("File not found");
-        } catch (Exception e){
-            log.error("File downloading error", e);
-        }
+//        Path filePath = this.fileStorageLocation.resolve( fileName);
+//        try{
+//            Resource resource = new UrlResource(filePath.toUri());
+//            if (resource.exists()) return resource;
+//            else throw new Exception("File not found");
+//        } catch (Exception e){
+//            log.error("File downloading error", e);
+//        }
+
+        if(isExists(fileName)){
+            try{
+                return new UrlResource(fileStorageLocation.resolve(fileName).toUri());
+            } catch (MalformedURLException e){
+                log.error("File downloading error", e);
+            }
+        } else throw new NotFoundException("File", "filename", fileName);
         return null;
     }
 }
