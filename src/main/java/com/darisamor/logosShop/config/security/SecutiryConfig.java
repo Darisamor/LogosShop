@@ -2,6 +2,7 @@ package com.darisamor.logosShop.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecutiryConfig extends WebSecurityConfigurerAdapter {
@@ -34,8 +36,8 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.GET, "/image/*", "/image/file/*").permitAll()
-//                .antMatchers(HttpMethod.GET,"/image/test").hasRole("USER")
-//                .antMatchers(HttpMethod.POST,"/image/test").hasRole("ADMIN")   *both methods realised in controller
+//                .antMatchers(HttpMethod.GET,"/image/test").hasRole("USER")     *
+//                .antMatchers(HttpMethod.POST,"/image/test").hasRole("ADMIN")   * both methods realised in controller
                 .anyRequest().authenticated()
                 .and()
 //                .formLogin();
